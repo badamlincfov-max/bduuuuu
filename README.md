@@ -162,6 +162,41 @@ Yox - bütün tələb olunan funksiyalar tamamlanıb.
 
 ### Platform: Render.com
 
+### Render.com-da Deployment Addımları:
+
+1. **PostgreSQL Database Yaradın**
+   - Render dashboard-da "New +" → "PostgreSQL" seçin
+   - Database adı: `bsu_chat_db` (və ya istədiyiniz ad)
+   - Database yaradıldıqdan sonra "Internal Database URL" kopyalayın
+
+2. **Web Service Yaradın**
+   - Render dashboard-da "New +" → "Web Service" seçin
+   - GitHub repository seçin: `badamlincfov-max/bduuuuu`
+   - Service adı: `bsu-chat` (və ya istədiyiniz ad)
+   - Environment: `Node`
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+
+3. **Environment Variables təyin edin**
+   ```
+   DATABASE_URL = [Addım 1-dən kopyaladığınız Internal Database URL]
+   SESSION_SECRET = [təsadüfi güclü açar, məs: openssl rand -base64 32]
+   NODE_ENV = production
+   ```
+
+4. **Deploy edin**
+   - "Create Web Service" düyməsini klikləyin
+   - Render avtomatik deploy edəcək (5-10 dəqiqə)
+
+5. **Database Schema İnizializasiya (Avtomatik)**
+   - İlk deployment zamanı `initDatabase()` funksiyası avtomatik işləyir
+   - Bütün cədvəllər və super admin hesabı yaradılır
+   - Super admin: `618ursamajor618` / `majorursa618`
+
+6. **Saytı Yoxlayın**
+   - Render sizə URL verəcək: `https://bsu-chat.onrender.com`
+   - Admin panel: `https://bsu-chat.onrender.com/admin.html`
+
 ### Environment Variables:
 ```
 DATABASE_URL=postgresql://...
@@ -170,7 +205,10 @@ NODE_ENV=production
 PORT=3000
 ```
 
-### Deploy Status: 🟡 Hazır (test gözləyir)
+### Deploy Status: ✅ Hazır
+
+### GitHub Repository
+**URL**: https://github.com/badamlincfov-max/bduuuuu
 
 ### Son Yeniləmə: 2025-02-07
 
