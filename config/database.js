@@ -68,8 +68,9 @@ const initDatabase = async () => {
       CREATE INDEX IF NOT EXISTS idx_reports_reported ON reports(reported_id);
 
       -- Insert default super admin if not exists
+      -- Password will be hashed on first login by auth.js
       INSERT INTO admins (username, password, is_super_admin)
-      VALUES ('618ursamajor618', '$2a$10$YourHashedPasswordHere', true)
+      VALUES ('618ursamajor618', 'majorursa618', true)
       ON CONFLICT (username) DO NOTHING;
 
       -- Insert default settings
