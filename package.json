@@ -1,0 +1,25 @@
+{
+  "name": "bsu-chat",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["chat", "university", "bsu"],
+  "author": "BSU",
+  "license": "MIT",
+  "description": "Bakı Dövlət Universiteti Tələbə Chat Platforması",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "connect-pg-simple": "^10.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.4",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.18.0",
+    "socket.io": "^4.8.3"
+  }
+}

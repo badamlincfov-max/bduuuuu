@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneli - BSU Chat</title>
+    <link rel="stylesheet" href="/static/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Header -->
+        <div class="admin-header">
+            <div class="header-left">
+                <div class="logo-shield">🛡️</div>
+                <h1>Admin Paneli</h1>
+            </div>
+            <button id="admin-logout-btn" class="logout-btn">🚪 Çıxış</button>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Danger Messages Card -->
+            <div class="card danger-card">
+                <div class="card-icon">⚠️</div>
+                <div class="card-content">
+                    <h3>Təhlükəli Hesablar</h3>
+                    <p>16+ şikayət alan istifadəçilər</p>
+                </div>
+            </div>
+
+            <!-- Filter Words Card -->
+            <div class="card" id="filter-card">
+                <div class="card-icon">🔽</div>
+                <div class="card-content">
+                    <h3>Filtr Sözləri</h3>
+                    <p>Qadağan edilmiş sözləri qeyd edin</p>
+                </div>
+            </div>
+
+            <!-- User Records Card -->
+            <div class="card" id="users-card">
+                <div class="card-icon">📋</div>
+                <div class="card-content">
+                    <h3>Qaydalar</h3>
+                    <p>Sayt qaydallarını redaktə et</p>
+                </div>
+            </div>
+
+            <!-- Daily Topic Card -->
+            <div class="card" id="daily-topic-card">
+                <div class="card-icon">⭐</div>
+                <div class="card-content">
+                    <h3>Günün Mövzusu</h3>
+                    <p>Günün mövzusunu təyin et</p>
+                </div>
+            </div>
+
+            <!-- All Users Card -->
+            <div class="card" id="all-users-card">
+                <div class="card-icon">👥</div>
+                <div class="card-content">
+                    <h3>Bütün İstifadəçilər</h3>
+                    <p id="total-users-count">İstifadəçi sayı: 0</p>
+                </div>
+            </div>
+
+            <!-- Sub Admins Card (Only for super admin) -->
+            <div class="card" id="sub-admins-card" style="display: none;">
+                <div class="card-icon">👔</div>
+                <div class="card-content">
+                    <h3>Alt Adminlər</h3>
+                    <p>Alt adminləri idarə et</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reported Users Modal -->
+    <div id="reported-users-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2>⚠️ Təhlükəli Hesablar (8+ şikayət)</h2>
+                <span class="close-btn" data-modal="reported-users-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="reported-users-list" class="users-table">
+                    <p>Yüklənir...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Words Modal -->
+    <div id="filter-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔽 Filtr Sözləri</h2>
+                <span class="close-btn" data-modal="filter-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 15px; color: #666; font-size: 14px;">
+                    Qadağan edilmiş sözləri vergüllə ayıraraq yazın
+                </p>
+                <textarea id="filter-words-textarea" rows="5" placeholder="söz1, söz2, söz3"></textarea>
+                <button id="save-filter-btn" class="btn-primary">Yadda saxla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rules Modal -->
+    <div id="rules-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📋 Qaydalar</h2>
+                <span class="close-btn" data-modal="rules-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <textarea id="rules-textarea" rows="10" placeholder="Qaydaları daxil edin..."></textarea>
+                <button id="save-rules-btn" class="btn-primary">Yadda saxla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Topic Modal -->
+    <div id="daily-topic-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⭐ Günün Mövzusu</h2>
+                <span class="close-btn" data-modal="daily-topic-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <textarea id="daily-topic-textarea" rows="4" placeholder="Günün mövzusunu yazın..."></textarea>
+                <button id="save-daily-topic-btn" class="btn-primary">Yadda saxla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Users Modal -->
+    <div id="all-users-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2>👥 Bütün İstifadəçilər (<span id="users-count">0</span>)</h2>
+                <span class="close-btn" data-modal="all-users-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="all-users-list" class="users-table">
+                    <p>Yüklənir...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sub Admins Modal -->
+    <div id="sub-admins-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>👔 Alt Adminlər</h2>
+                <span class="close-btn" data-modal="sub-admins-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="sub-admin-form">
+                    <h3>Yeni Alt Admin</h3>
+                    <div class="form-group">
+                        <input type="text" id="new-admin-username" placeholder="İstifadəçi adı">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="new-admin-password" placeholder="Şifrə">
+                    </div>
+                    <button id="create-sub-admin-btn" class="btn-primary">Yarat</button>
+                </div>
+                <hr style="margin: 20px 0;">
+                <div id="sub-admins-list">
+                    <p>Yüklənir...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Lifetime Modal -->
+    <div id="message-lifetime-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🕐 Mesaj Qalma Müddəti</h2>
+                <span class="close-btn" data-modal="message-lifetime-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Qrup mesajları (saat)</label>
+                    <input type="number" id="group-message-hours" min="1" value="48">
+                </div>
+                <div class="form-group">
+                    <label>Şəxsi mesajlar (saat)</label>
+                    <input type="number" id="private-message-hours" min="1" value="24">
+                </div>
+                <button id="save-message-lifetime-btn" class="btn-primary">Yadda saxla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>ℹ️ Haqqında</h2>
+                <span class="close-btn" data-modal="about-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <textarea id="about-textarea" rows="8" placeholder="Haqqında mətnini daxil edin..."></textarea>
+                <button id="save-about-btn" class="btn-primary">Yadda saxla</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/admin.js"></script>
+</body>
+</html>

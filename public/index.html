@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSU Chat - Giriş</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-section img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+        }
+
+        .logo-section h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .logo-section p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: #f5f5f5;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab:hover {
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .phone-input-group {
+            display: flex;
+            gap: 5px;
+        }
+
+        .phone-prefix {
+            width: 70px;
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .email-input-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .email-suffix {
+            font-size: 14px;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .verification-section {
+            display: none;
+        }
+
+        .verification-section.active {
+            display: block;
+        }
+
+        .question-block {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .question-text {
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .radio-label input {
+            margin-right: 5px;
+            width: auto;
+        }
+
+        .avatar-selector {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .avatar-option {
+            cursor: pointer;
+            transition: transform 0.3s;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        .avatar-option img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+
+        .avatar-option.selected {
+            border-color: #667eea;
+            transform: scale(1.1);
+        }
+
+        .avatar-option:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <div style="width: 80px; height: 80px; margin: 0 auto 15px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 36px; font-weight: bold;">
+                B
+            </div>
+            <h1>BSU Chat</h1>
+            <p>Bakı Dövlət Universiteti - Tələbə Platforması</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="login">Giriş</button>
+            <button class="tab" data-tab="register">Qeydiyyat</button>
+            <button class="tab" data-tab="admin">Admin Paneli</button>
+        </div>
+
+        <div id="error-message" class="error-message"></div>
+
+        <!-- Login Tab -->
+        <div id="login-tab" class="tab-content active">
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="login-email" required placeholder="email@bsu.edu.az">
+                </div>
+                <div class="form-group">
+                    <label>Şifrə</label>
+                    <input type="password" id="login-password" required placeholder="Şifrənizi daxil edin">
+                </div>
+                <button type="submit" class="btn btn-primary">Daxil ol</button>
+            </form>
+        </div>
+
+        <!-- Register Tab -->
+        <div id="register-tab" class="tab-content">
+            <!-- Registration Form -->
+            <div id="registration-form" class="registration-section active">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label>Ad Soyad</label>
+                        <input type="text" id="reg-fullname" required placeholder="Ad və soyadınızı daxil edin">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email</label>
+                        <div class="email-input-group">
+                            <input type="text" id="reg-email" required placeholder="email" style="flex: 1;">
+                            <span class="email-suffix">@bsu.edu.az</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Telefon nömrəsi</label>
+                        <div class="phone-input-group">
+                            <div class="phone-prefix">+994</div>
+                            <input type="text" id="reg-phone" required placeholder="XXXXXXXXX" maxlength="9" pattern="[0-9]{9}" style="flex: 1;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Fakültə</label>
+                        <select id="reg-faculty" required>
+                            <option value="">Fakültəni seçin</option>
+                            <option value="Mexanika-riyaziyyat fakültəsi">Mexanika-riyaziyyat fakültəsi</option>
+                            <option value="Tətbiqi riyaziyyat və kibernetika fakültəsi">Tətbiqi riyaziyyat və kibernetika fakültəsi</option>
+                            <option value="Fizika fakültəsi">Fizika fakültəsi</option>
+                            <option value="Kimya fakültəsi">Kimya fakültəsi</option>
+                            <option value="Biologiya fakültəsi">Biologiya fakültəsi</option>
+                            <option value="Ekologiya və torpaqşünaslıq fakültəsi">Ekologiya və torpaqşünaslıq fakültəsi</option>
+                            <option value="Coğrafiya fakültəsi">Coğrafiya fakültəsi</option>
+                            <option value="Geologiya fakültəsi">Geologiya fakültəsi</option>
+                            <option value="Filologiya fakültəsi">Filologiya fakültəsi</option>
+                            <option value="Tarix fakültəsi">Tarix fakültəsi</option>
+                            <option value="Beynəlxalq münasibətlər və iqtisadiyyat fakültəsi">Beynəlxalq münasibətlər və iqtisadiyyat fakültəsi</option>
+                            <option value="Hüquq fakültəsi">Hüquq fakültəsi</option>
+                            <option value="Jurnalistika fakültəsi">Jurnalistika fakültəsi</option>
+                            <option value="İnformasiya və sənəd menecmenti fakültəsi">İnformasiya və sənəd menecmenti fakültəsi</option>
+                            <option value="Şərqşünaslıq fakültəsi">Şərqşünaslıq fakültəsi</option>
+                            <option value="Sosial elmlər və psixologiya fakültəsi">Sosial elmlər və psixologiya fakültəsi</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Dərəcə</label>
+                        <select id="reg-degree" required>
+                            <option value="">Dərəcəni seçin</option>
+                            <option value="Bakalavr">Bakalavr</option>
+                            <option value="Magistr">Magistr</option>
+                            <option value="Doktorantura">Doktorantura</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Kurs</label>
+                        <select id="reg-course" required>
+                            <option value="">Kursu seçin</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Profil şəkli seçin</label>
+                        <div class="avatar-selector">
+                            <div class="avatar-option selected" data-avatar="female">
+                                <img src="/images/avatars.png" alt="Female" style="object-fit: cover; object-position: left;">
+                            </div>
+                            <div class="avatar-option" data-avatar="male">
+                                <img src="/images/avatars.png" alt="Male" style="object-fit: cover; object-position: right;">
+                            </div>
+                        </div>
+                        <input type="hidden" id="reg-avatar" value="female">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Şifrə</label>
+                        <input type="password" id="reg-password" required placeholder="Şifrə daxil edin" minlength="6">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Növbəti - Doğrulama</button>
+                </form>
+            </div>
+
+            <!-- Verification Section -->
+            <div id="verification-section" class="verification-section">
+                <h3 style="margin-bottom: 20px; text-align: center;">Doğrulama Sualları</h3>
+                <p style="text-align: center; color: #666; margin-bottom: 20px; font-size: 14px;">
+                    3 sualdan minimum 2-ni düzgün cavablandırmalısınız
+                </p>
+                <div id="questions-container"></div>
+                <button id="submit-verification" class="btn btn-primary">Qeydiyyatı tamamla</button>
+                <button id="back-to-form" class="btn btn-secondary">Geri</button>
+            </div>
+        </div>
+
+        <!-- Admin Tab -->
+        <div id="admin-tab" class="tab-content">
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label>İstifadəçi adı</label>
+                    <input type="text" id="admin-username" required placeholder="Admin istifadəçi adı">
+                </div>
+                <div class="form-group">
+                    <label>Şifrə</label>
+                    <input type="password" id="admin-password" required placeholder="Admin şifrəsi">
+                </div>
+                <button type="submit" class="btn btn-primary">Admin girişi</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

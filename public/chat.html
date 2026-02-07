@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSU Chat - Söhbət</title>
+    <link rel="stylesheet" href="/static/chat.css">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-circle">B</div>
+                    <span>BSU Chat</span>
+                </div>
+                <button id="logout-btn" class="icon-btn" title="Çıxış">
+                    <span>🚪</span>
+                </button>
+            </div>
+
+            <div class="user-profile">
+                <div class="avatar-circle" id="user-avatar-sidebar">
+                    <img src="/images/avatars.png" alt="Avatar">
+                </div>
+                <div class="user-info">
+                    <div class="user-name" id="user-name-sidebar"></div>
+                    <div class="user-faculty" id="user-faculty-sidebar"></div>
+                </div>
+                <button id="edit-profile-btn" class="icon-btn" title="Profili redaktə et">
+                    <span>✏️</span>
+                </button>
+            </div>
+
+            <div class="daily-topic" id="daily-topic-section" style="display: none;">
+                <div class="topic-header">⭐ Günün mövzusu</div>
+                <div class="topic-content" id="daily-topic-content"></div>
+            </div>
+
+            <div class="faculty-rooms">
+                <div class="section-title">Fakültə Otaqları</div>
+                <button class="room-btn active" data-faculty="my-faculty" id="my-faculty-btn">
+                    <span class="room-icon">💬</span>
+                    <span class="room-name">Mənim fakültəm</span>
+                </button>
+            </div>
+
+            <div class="menu-buttons">
+                <button id="rules-btn" class="menu-btn">
+                    <span>📋</span> Qaydalar
+                </button>
+                <button id="about-btn" class="menu-btn">
+                    <span>ℹ️</span> Haqqında
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="main-chat">
+            <div class="chat-header">
+                <div class="chat-title" id="chat-title">Fakültə Söhbəti</div>
+                <div class="online-count" id="online-count"></div>
+            </div>
+
+            <div class="messages-container" id="messages-container">
+                <!-- Messages will be added here -->
+            </div>
+
+            <div class="message-input-container">
+                <input type="text" id="message-input" placeholder="Mesajınızı yazın..." maxlength="500">
+                <button id="send-btn" class="send-btn">Göndər</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Profili Redaktə Et</h2>
+                <span class="close-btn" data-modal="edit-profile-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Ad Soyad</label>
+                    <input type="text" id="edit-fullname">
+                </div>
+                <div class="form-group">
+                    <label>Fakültə</label>
+                    <select id="edit-faculty">
+                        <option value="Mexanika-riyaziyyat fakültəsi">Mexanika-riyaziyyat fakültəsi</option>
+                        <option value="Tətbiqi riyaziyyat və kibernetika fakültəsi">Tətbiqi riyaziyyat və kibernetika fakültəsi</option>
+                        <option value="Fizika fakültəsi">Fizika fakültəsi</option>
+                        <option value="Kimya fakültəsi">Kimya fakültəsi</option>
+                        <option value="Biologiya fakültəsi">Biologiya fakültəsi</option>
+                        <option value="Ekologiya və torpaqşünaslıq fakültəsi">Ekologiya və torpaqşünaslıq fakültəsi</option>
+                        <option value="Coğrafiya fakültəsi">Coğrafiya fakültəsi</option>
+                        <option value="Geologiya fakültəsi">Geologiya fakültəsi</option>
+                        <option value="Filologiya fakültəsi">Filologiya fakültəsi</option>
+                        <option value="Tarix fakültəsi">Tarix fakültəsi</option>
+                        <option value="Beynəlxalq münasibətlər və iqtisadiyyat fakültəsi">Beynəlxalq münasibətlər və iqtisadiyyat fakültəsi</option>
+                        <option value="Hüquq fakültəsi">Hüquq fakültəsi</option>
+                        <option value="Jurnalistika fakültəsi">Jurnalistika fakültəsi</option>
+                        <option value="İnformasiya və sənəd menecmenti fakültəsi">İnformasiya və sənəd menecmenti fakültəsi</option>
+                        <option value="Şərqşünaslıq fakültəsi">Şərqşünaslıq fakültəsi</option>
+                        <option value="Sosial elmlər və psixologiya fakültəsi">Sosial elmlər və psixologiya fakültəsi</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Dərəcə</label>
+                    <select id="edit-degree">
+                        <option value="Bakalavr">Bakalavr</option>
+                        <option value="Magistr">Magistr</option>
+                        <option value="Doktorantura">Doktorantura</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Kurs</label>
+                    <select id="edit-course">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Profil şəkli</label>
+                    <div class="avatar-selector">
+                        <div class="avatar-option" data-avatar="female">
+                            <img src="/images/avatars.png" alt="Female" style="object-fit: cover; object-position: left;">
+                        </div>
+                        <div class="avatar-option" data-avatar="male">
+                            <img src="/images/avatars.png" alt="Male" style="object-fit: cover; object-position: right;">
+                        </div>
+                    </div>
+                    <input type="hidden" id="edit-avatar">
+                </div>
+                <button id="save-profile-btn" class="btn-primary">Yadda saxla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rules Modal -->
+    <div id="rules-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📋 Qaydalar</h2>
+                <span class="close-btn" data-modal="rules-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="rules-content" style="white-space: pre-wrap;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>ℹ️ Haqqında</h2>
+                <span class="close-btn" data-modal="about-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="about-content" style="white-space: pre-wrap;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Actions Modal (for 3-dot menu) -->
+    <div id="user-actions-modal" class="modal">
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h2>İstifadəçi əməliyyatları</h2>
+                <span class="close-btn" data-modal="user-actions-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <button id="private-chat-btn" class="action-btn">💬 Şəxsi mesaj</button>
+                <button id="block-user-btn" class="action-btn">🚫 Əngəllə</button>
+                <button id="report-user-btn" class="action-btn">⚠️ Şikayət et</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Private Chat Modal -->
+    <div id="private-chat-modal" class="modal full-screen">
+        <div class="modal-content full">
+            <div class="modal-header">
+                <h2 id="private-chat-title">Şəxsi Söhbət</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button id="block-in-private-btn" class="icon-btn" title="Əngəllə">🚫</button>
+                    <span class="close-btn" data-modal="private-chat-modal">&times;</span>
+                </div>
+            </div>
+            <div class="modal-body no-padding">
+                <div class="messages-container" id="private-messages-container">
+                    <!-- Private messages will be added here -->
+                </div>
+                <div class="message-input-container">
+                    <input type="text" id="private-message-input" placeholder="Şəxsi mesajınızı yazın..." maxlength="500">
+                    <button id="private-send-btn" class="send-btn">Göndər</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/static/chat.js"></script>
+</body>
+</html>
